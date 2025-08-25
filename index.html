@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宽恕就是爱 - AI智能阅读助手</title>
+    <meta name="description" content="基于AI的智能阅读助手，帮助用户深度理解《宽恕就是爱》，生成个性化感悟和短视频文案">
+    <meta name="keywords" content="AI阅读助手,宽恕就是爱,智能分析,心灵成长,个人发展">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4facfe;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+        }
+
+        .upload-area {
+            border: 2px dashed #4facfe;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #00f2fe;
+            background: #f0f8ff;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .chapter-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4facfe;
+        }
+
+        .chapter-card.current {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+        }
+
+        .chapter-card.completed {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .reading-area {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            line-height: 1.8;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-result {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-section {
+            margin-bottom: 25px;
+        }
+
+        .ai-section h4 {
+            color: #d63031;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .video-script {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4facfe;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .api-status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: none;
+            font-weight: 500;
+        }
+
+        .api-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .api-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .api-loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b8daff;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chapter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>宽恕就是爱</h1>
+            <p>AI智能阅读助手 · 深度感悟生成器</p>
+        </div>
+
+        <div class="main-content">
+            <!-- API配置区域 -->
+            <div class="section" id="apiSetup">
+                <h3>🔧 AI配置</h3>
+                <p>配置AI接口以获得个性化深度分析（推荐：智谱GLM-4，成本低效果好）</p>
+                
+                <div class="api-status" id="apiStatus"></div>
+                
+                <div class="input-group">
+                    <label>API密钥 (API Key):</label>
+                    <input type="password" id="apiKey" placeholder="请输入您的AI API密钥">
+                    <small style="color: #666; font-size: 0.9em;">获取方式：注册智谱AI开放平台 (open.bigmodel.cn)</small>
+                </div>
+                
+                <div class="input-group">
+                    <label>API类型:</label>
+                    <select id="apiType">
+                        <option value="zhipu">智谱GLM-4 (推荐)</option>
+                        <option value="qianwen">通义千问</option>
+                        <option value="openai">OpenAI GPT</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label>API端点 (可选):</label>
+                    <input type="text" id="apiBaseUrl" placeholder="自定义API端点，留空使用默认">
+                </div>
+                
+                <button class="btn" onclick="saveConfig()">保存配置</button>
+                <button class="btn btn-secondary" onclick="testAPI()" id="testBtn">测试连接</button>
+            </div>
+
+            <!-- 统计信息 -->
+            <div class="stats hidden" id="statsArea">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalChapters">0</div>
+                    <div class="stat-label">总章节数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedChapters">0</div>
+                    <div class="stat-label">已完成章节</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="progressPercent">0%</div>
+                    <div class="stat-label">阅读进度</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streakDays">0</div>
+                    <div class="stat-label">连续天数</div>
+                </div>
+            </div>
+
+            <div class="progress-bar hidden" id="overallProgress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- 书籍导入区域 -->
+            <div class="section" id="uploadSection">
+                <h3>📚 导入书籍</h3>
+                <div class="upload-area" onclick="selectFile()">
+                    <h3>📖 点击上传TXT格式书籍</h3>
+                    <p>支持《宽恕就是爱》等心灵成长类书籍</p>
+                    <p style="color: #666; font-size: 0.9em;">或直接使用下方的示例书籍开始体验</p>
+                </div>
+                <input type="file" id="fileInput" accept=".txt" style="display:none" onchange="handleFile(event)">
+                <button class="btn btn-success" onclick="loadSampleBook()">使用《宽恕就是爱》示例</button>
+                
+                <div class="hidden" id="exportSection" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                    <h4>📤 导出功能</h4>
+                    <button class="btn" onclick="exportProgress()">导出阅读进度</button>
+                    <button class="btn" onclick="exportInsights()">导出所有感悟</button>
+                </div>
+            </div>
+
+            <!-- 章节列表 -->
+            <div class="section hidden" id="chaptersSection">
+                <h3>📖 章节管理</h3>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn" onclick="markAllRead()">全部标记为已读</button>
+                    <button class="btn btn-secondary" onclick="resetProgress()">重置进度</button>
+                    <button class="btn" onclick="autoReadMode()" id="autoBtn">自动阅读模式</button>
+                </div>
+                <div class="chapter-grid" id="chapterGrid"></div>
+            </div>
+
+            <!-- 阅读区域 -->
+            <div class="section hidden" id="readingSection">
+                <h3>✨ 今日阅读</h3>
+                <div class="reading-area" id="readingContent"></div>
+                
+                <div style="margin: 20px 0;">
+                    <button class="btn" id="generateBtn" onclick="generateInsight()" disabled>
+                        <span id="btnText">生成AI深度感悟</span>
+                    </button>
+                    <button class="btn" onclick="toggleNote()">📝 添加个人笔记</button>
+                    <button class="btn btn-success" onclick="shareInsight()">📱 分享感悟</button>
+                </div>
+                
+                <textarea id="personalNote" placeholder="在这里写下您对本章的个人感悟和思考..." 
+                    style="width: 100%; height: 100px; margin: 10px 0; display: none;" class="input-group"></textarea>
+                
+                <div class="ai-result hidden" id="aiResult"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>宽恕就是爱 - AI智能阅读助手</strong></p>
+            <p>基于先进AI技术，提供个性化深度阅读分析</p>
+            <p>项目开源地址: <a href="https://github.com/你的用户名/forgiveness-reading-assistant" target="_blank">GitHub</a></p>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let bookChapters = [];
+        let currentChapter = 0;
+        let readingProgress = {};
+        let personalNotes = {};
+        let apiConfig = {};
+        let autoReadTimer = null;
+
+        // DOM加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，开始初始化...');
+            loadSavedData();
+        });
+
+        // 加载保存的数据
+        function loadSavedData() {
+            try {
+                // 加载API配置
+                const savedConfig = localStorage.getItem('apiConfig');
+                if (savedConfig) {
+                    apiConfig = JSON.parse(savedConfig);
+                    const apiKeyInput = document.getElementById('apiKey');
+                    const apiTypeSelect = document.getElementById('apiType');
+                    const apiBaseUrlInput = document.getElementById('apiBaseUrl');
+                    
+                    if (apiKeyInput) apiKeyInput.value = apiConfig.apiKey || '';
+                    if (apiTypeSelect) apiTypeSelect.value = apiConfig.apiType || 'zhipu';
+                    if (apiBaseUrlInput) apiBaseUrlInput.value = apiConfig.baseUrl || '';
+                }
+
+                // 加载阅读进度
+                const savedProgress = localStorage.getItem('readingProgress');
+                if (savedProgress) {
+                    readingProgress = JSON.parse(savedProgress);
+                }
+
+                // 加载个人笔记
+                const savedNotes = localStorage.getItem('personalNotes');
+                if (savedNotes) {
+                    personalNotes = JSON.parse(savedNotes);
+                }
+
+                // 加载书籍章节
+                const savedChapters = localStorage.getItem('bookChapters');
+                if (savedChapters) {
+                    bookChapters = JSON.parse(savedChapters);
+                    initializeReading();
+                }
+
+                console.log('数据加载完成');
+            } catch (error) {
+                console.error('数据加载错误:', error);
+            }
+        }
+
+        // API相关功能
+        function saveConfig() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const apiType = document.getElementById('apiType').value;
+            const baseUrl = document.getElementById('apiBaseUrl').value.trim();
+
+            if (!apiKey) {
+                showStatus('请输入API密钥', 'error');
+                return;
+            }
+
+            apiConfig = {
+                apiKey: apiKey,
+                apiType: apiType,
+                baseUrl: baseUrl || getDefaultApiUrl(apiType)
+            };
+
+            localStorage.setItem('apiConfig', JSON.stringify(apiConfig));
+            showStatus('✓ API配置保存成功！', 'success');
+
+            if (bookChapters.length > 0) {
+                document.getElementById('generateBtn').disabled = false;
+            }
+        }
+
+        function getDefaultApiUrl(type) {
+            const urls = {
+                'zhipu': 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+                'qianwen': 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+                'openai': 'https://api.openai.com/v1/chat/completions'
+            };
+            return urls[type] || urls.zhipu;
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('apiStatus');
+            if (!statusDiv) return;
+
+            statusDiv.className = `api-status api-${type}`;
+            statusDiv.textContent = message;
+            statusDiv.style.display = 'block';
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        async function testAPI() {
+            if (!apiConfig.apiKey) {
+                showStatus('请先保存API配置', 'error');
+                return;
+            }
+
+            const testBtn = document.getElementById('testBtn');
+            testBtn.disabled = true;
+            testBtn.textContent = '测试中...';
+
+            try {
+                const result = await callRealAPI('这是一个API连接测试', true);
+                if (result.success) {
+                    showStatus('✓ API连接成功！', 'success');
+                } else {
+                    showStatus('✗ API测试失败: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('✗ 连接错误: ' + error.message, 'error');
+            }
+
+            testBtn.disabled = false;
+            testBtn.textContent = '测试连接';
+        }
+
+        // 文件处理
+        function selectFile() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                parseBookContent(e.target.result);
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function loadSampleBook() {
+            const sampleChapters = [
+                '宽恕的真谛（代序）',
+                '找回自己内在的爱', 
+                '前言',
+                '简介：宽恕的四大原则',
+                '第一要诀：对自己的平安负责',
+                '第一招 承认恐惧',
+                '第二招 了解自己渴望的是爱',
+                '第三招 收回投射',
+                '第四招 对自己负责',
+                '第二要诀：找回你我平等之处',
+                '第五招 放下自我批判与内疚',
+                '第六招 接纳自己以及待人如己',
+                '第七招 乐意学习与分享',
+                '第八招 做自己的主人',
+                '第三要诀：信任自己的生命',
+                '第九招 接受人生课程',
+                '第十招 认出一切都没有问题',
+                '第十一招 看镜中人生',
+                '第十二招 开放心灵',
+                '第四要诀：铭记"生命是爱"'
+            ];
+
+            const sampleContents = {
+                '宽恕的真谛（代序）': '宽恕不是一个行动而已，它是一连串的"正念"所累积出来的"心胸"，这不是听几次演讲或读几本书就能获得的经验，因它与个人的无知、恐慌、逃避、自责、封闭、抗拒等等隐藏的心态有关...',
+                '找回自己内在的爱': '这本书虽小，却花了我二年的时间翻译，因为在翻译的过程中，发生了一连串离奇的事件，把我从里到外剥了两层皮，让我仿佛脱胎换骨般地变成了另一个人...',
+                '第一招 承认恐惧': '一旦承认了自己的恐惧、悲伤、痛苦、创伤、退缩、嫉妒、愤怒，和分裂感，我们便已踏上这趟宽恕之旅了，既不再为那些感觉辩护，也不谴责它们，只是允许自己察觉到它们的存在...'
+            };
+
+            bookChapters = sampleChapters.map((title, index) => ({
+                title: title,
+                content: sampleContents[title] || `这是第${index + 1}章"${title}"的内容。本章深入探讨了宽恕与爱的智慧，帮助我们理解如何在日常生活中实践宽恕的力量。通过学习这些概念，我们可以更好地认识自己，学会放下过去的伤痛，拥抱当下的美好，并建立更和谐的人际关系。宽恕是一种内在的转变，它不仅能够治愈我们自己，也能够影响周围的人，创造更多的爱与和谐。`
+            }));
+
+            localStorage.setItem('bookChapters', JSON.stringify(bookChapters));
+            initializeReading();
+        }
+
+        function parseBookContent(content) {
+            const lines = content.split('\n').filter(line => line.trim());
+            bookChapters = [];
+
+            lines.forEach((line, index) => {
+                const trimmed = line.trim();
+                if (trimmed && trimmed.length > 2 && !trimmed.includes('/')) {
+                    bookChapters.push({
+                        title: trimmed,
+                        content: `这是"${trimmed}"的内容。本章节包含了关于宽恕与爱的深刻洞察...`
+                    });
+                }
+            });
+
+            if (bookChapters.length > 0) {
+                localStorage.setItem('bookChapters', JSON.stringify(bookChapters));
+                initializeReading();
+            }
+        }
+
+        // 界面初始化
+        function initializeReading() {
+            document.getElementById('uploadSection').classList.add('hidden');
+            document.getElementById('chaptersSection').classList.remove('hidden');
+            document.getElementById('readingSection').classList.remove('hidden');
+            document.getElementById('statsArea').classList.remove('hidden');
+            document.getElementById('overallProgress').classList.remove('hidden');
+            document.getElementById('exportSection').classList.remove('hidden');
+
+            updateStats();
+            renderChapters();
+            loadChapter(0);
+        }
+
+        function updateStats() {
+            const completed = Object.keys(readingProgress).length;
+            const progress = bookChapters.length > 0 ? Math.round((completed / bookChapters.length) * 100) : 0;
+
+            document.getElementById('totalChapters').textContent = bookChapters.length;
+            document.getElementById('completedChapters').textContent = completed;
+            document.getElementById('progressPercent').textContent = progress + '%';
+            document.getElementById('streakDays').textContent = calculateStreak();
+
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                progressFill.style.width = progress + '%';
+            }
+        }
+
+        function calculateStreak() {
+            const dates = Object.values(readingProgress)
+                .map(p => new Date(p.date).toDateString())
+                .sort().reverse();
+
+            let streak = 0;
+            let currentDate = new Date();
+
+            for (let dateStr of dates) {
+                if (dateStr === currentDate.toDateString()) {
+                    streak++;
+                    currentDate.setDate(currentDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            return streak;
+        }
+
+        function renderChapters() {
+            const grid = document.getElementById('chapterGrid');
+            grid.innerHTML = '';
+
+            bookChapters.forEach((chapter, index) => {
+                const card = document.createElement('div');
+                card.className = 'chapter-card';
+
+                if (readingProgress[index]) card.classList.add('completed');
+                if (index === currentChapter) card.classList.add('current');
+
+                const hasNote = personalNotes[index] && personalNotes[index].trim();
+                const completedDate = readingProgress[index] ? 
+                    new Date(readingProgress[index].date).toLocaleDateString() : '';
+
+                card.innerHTML = `
+                    <h4>第${index + 1}章 ${hasNote ? '📝' : ''}</h4>
+                    <p style="margin: 8px 0; font-weight: 500;">${chapter.title}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                        <small style="color: #666;">
+                            ${completedDate ? `完成于: ${completedDate}` : '未开始'}
+                        </small>
+                        <span style="font-size: 1.2em;">
+                            ${readingProgress[index] ? '✅' : (index === currentChapter ? '📖' : '⏳')}
+                        </span>
+                    </div>
+                `;
+
+                card.onclick = () => loadChapter(index);
+                grid.appendChild(card);
+            });
+        }
+
+        function loadChapter(index) {
+            currentChapter = index;
+            const chapter = bookChapters[index];
+            const progress = readingProgress[index];
+            const note = personalNotes[index];
+
+            let statusBadge = '';
+            if (progress) {
+                statusBadge = '<span style="background: #4CAF50; color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.9em;">✓ 已完成</span>';
+            } else {
+                statusBadge = '<span style="background: #2196F3; color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.9em;">📖 当前阅读</span>';
+            }
+
+            document.getElementById('readingContent').innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
+                    <h3 style="margin: 0; flex: 1;">${chapter.title}</h3>
+                    ${statusBadge}
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; line-height: 1.8; text-align: justify;">
+                    ${chapter.content}
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; flex-wrap: wrap;">
+                    <p style="color: #666; margin: 0;">
+                        第 ${index + 1} 章 / 共 ${bookChapters.length} 章
+                    </p>
+                    <div>
+                        ${index > 0 ? `<button class="btn" onclick="loadChapter(${index - 1})" style="padding: 8px 15px; font-size: 0.9em;">← 上一章</button>` : ''}
+                        ${index < bookChapters.length - 1 ? `<button class="btn" onclick="loadChapter(${index + 1})" style="padding: 8px 15px; font-size: 0.9em;">下一章 →</button>` : ''}
+                    </div>
+                </div>
+                
+                ${note ? `<div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #2196F3;">
+                    <strong>📝 我的笔记：</strong><br>
+                    <p style="margin: 8px 0 0 0; line-height: 1.6;">${note}</p>
+                </div>` : ''}
+            `;
+
+            renderChapters();
+
+            if (apiConfig.apiKey) {
+                document.getElementById('generateBtn').disabled = false;
+            }
+
+            // 显示已有的AI分析
+            if (progress && progress.insight) {
+                displayAIResult(progress.insight, chapter.title);
+            } else {
+                document.getElementById('aiResult').classList.add('hidden');
+            }
+        }
+
+        // AI分析功能
+        async function generateInsight() {
+            if (!apiConfig.apiKey) {
+                showStatus('请先配置API密钥', 'error');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('btnText');
+            
+            generateBtn.disabled = true;
+            btnText.innerHTML = '🤖 AI分析中...';
+
+            try {
+                const chapter = bookChapters[currentChapter];
+                const prompt = `请深度分析《宽恕就是爱》这本书中"${chapter.title}"这一章节的内容，并提供：
+
+1. 核心观点（3个要点）
+2. 个人成长启发（2-3句深刻的话）
+3. 生活实际应用（具体的实践方法）
+4. 短视频文案（3个版本）：
+   - 金句版（适合静态图文）
+   - 故事版（适合叙事视频）
+   - 互动版（适合与观众互动）
+5. 相关话题标签建议
+
+章节内容：${chapter.content}
+
+请提供深入且实用的分析，帮助读者真正理解和应用宽恕的智慧。`;
+
+                const result = await callRealAPI(prompt);
+                
+                if (result.success) {
+                    const insight = {
+                        content: result.content,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    displayAIResult(insight, chapter.title);
+                    
+                    // 保存分析结果
+                    readingProgress[currentChapter] = {
+                        date: new Date().toISOString(),
+                        insight: insight
+                    };
+                    
+                    localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+                    updateStats();
+                    renderChapters();
+                    
+                    showStatus('✓ AI分析完成！', 'success');
+                } else {
+                    showStatus('AI分析失败: ' + result.error, 'error');
+                    generateMockInsight(); // 降级到模拟分析
+                }
+            } catch (error) {
+                console.error('AI分析错误:', error);
+                showStatus('分析过程出错，使用备用方案', 'error');
+                generateMockInsight();
+            }
+
+            generateBtn.disabled = false;
+            btnText.textContent = '重新生成分析';
+        }
+
+        async function callRealAPI(prompt, isTest = false) {
+            const { apiKey, apiType, baseUrl } = apiConfig;
+
+            try {
+                let requestBody, headers;
+
+                switch (apiType) {
+                    case 'zhipu':
+                        headers = {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        };
+                        requestBody = {
+                            model: 'glm-4',
+                            messages: [{
+                                role: 'user',
+                                content: isTest ? '你好，这是连接测试' : prompt
+                            }],
+                            stream: false
+                        };
+                        break;
+
+                    case 'qianwen':
+                        headers = {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        };
+                        requestBody = {
+                            model: 'qwen-plus',
+                            input: {
+                                messages: [{
+                                    role: 'user',
+                                    content: isTest ? '你好，这是连接测试' : prompt
+                                }]
+                            }
+                        };
+                        break;
+
+                    case 'openai':
+                        headers = {
+                            'Authorization': `Bearer ${apiKey}`,
+                            'Content-Type': 'application/json'
+                        };
+                        requestBody = {
+                            model: 'gpt-3.5-turbo',
+                            messages: [{
+                                role: 'user',
+                                content: isTest ? 'Hello, this is a connection test' : prompt
+                            }]
+                        };
+                        break;
+                }
+
+                const response = await fetch(baseUrl, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                let content;
+                switch (apiType) {
+                    case 'zhipu':
+                    case 'openai':
+                        content = data.choices?.[0]?.message?.content;
+                        break;
+                    case 'qianwen':
+                        content = data.output?.text;
+                        break;
+                }
+
+                return { success: true, content: content };
+
+            } catch (error) {
+                console.error('API调用错误:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function generateMockInsight() {
+            const chapter = bookChapters[currentChapter];
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            const mockInsight = {
+                content: `🎯 核心观点：
+
+1. **${chapter.title}强调内在转化的力量** - 真正的改变来自于内心深处的觉醒，而不是外在环境的改变
+2. **宽恕是自我解放的关键** - 宽恕他人实际上是在解放自己，让心灵获得真正的自由与平安
+3. **爱是一切问题的终极答案** - 用爱的眼光看待人生，所有的困难和挑战都会转化为成长的机会
+
+💡 个人成长启发：
+
+每个人内心都有选择爱或恐惧的自由。当我们勇敢地选择爱时，奇迹就会在生命中自然发生。宽恕不是对错误的纵容，而是对自己心灵的慈悲，是内在力量和智慧的体现。
+
+🌟 生活实际应用：
+
+• **冲突处理法**：遇到人际冲突时，先问自己"我真正渴望的是什么？"通常答案都是理解和关爱
+• **每日宽恕练习**：睡前回顾一天，对任何怨恨或不满的情绪说"我选择宽恕，我选择释放"
+• **爱心冥想**：每天花5分钟向自己和他人送出爱的祝福，培养慈悲心
+
+📱 短视频文案：
+
+**金句版**：
+"${chapter.title}" - 真正的力量不在于改变世界，而在于改变自己的心 💫 #心灵成长 #宽恕的力量 #内在觉醒
+
+**故事版**：
+今天学到最深刻的道理：有人问什么是宽恕？智者回答：宽恕就是给自己的心灵松绑，让爱重新流动 ❤️ #宽恕就是爱 #心灵自由
+
+**互动版**：
+你觉得最难宽恕的是什么？是别人的伤害还是自己的过错？评论区分享你的宽恕故事 🤗 #宽恕 #内在成长 #心灵疗愈
+
+🏷️ 推荐标签：
+#宽恕就是爱 #心灵成长 #内在力量 #个人成长 #正念生活 #心灵疗愈 #自我觉醒`,
+                timestamp: new Date().toISOString()
+            };
+
+            displayAIResult(mockInsight, chapter.title);
+            
+            readingProgress[currentChapter] = {
+                date: new Date().toISOString(),
+                insight: mockInsight
+            };
+            
+            localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+            updateStats();
+            renderChapters();
+        }
+
+        function displayAIResult(insight, chapterTitle) {
+            const resultDiv = document.getElementById('aiResult');
+            
+            resultDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #d63031; margin: 0;">🤖 AI深度分析：${chapterTitle}</h3>
+                    <small style="color: #666;">
+                        ${new Date(insight.timestamp).toLocaleString()}
+                    </small>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 10px; white-space: pre-wrap; line-height: 1.8; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    ${insight.content}
+                </div>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd; text-align: center;">
+                    <small style="color: #666;">
+                        由 ${apiConfig.apiType?.toUpperCase() || 'AI'} 生成 • 
+                        <button onclick="shareInsight()" style="background: none; border: none; color: #4facfe; cursor: pointer; text-decoration: underline;">分享此分析</button>
+                    </small>
+                </div>
+            `;
+            
+            resultDiv.classList.remove('hidden');
+        }
+
+        // 辅助功能
+        function toggleNote() {
+            const noteArea = document.getElementById('personalNote');
+            
+            if (noteArea.style.display === 'none' || !noteArea.style.display) {
+                noteArea.style.display = 'block';
+                noteArea.value = personalNotes[currentChapter] || '';
+                noteArea.focus();
+            } else {
+                personalNotes[currentChapter] = noteArea.value;
+                localStorage.setItem('personalNotes', JSON.stringify(personalNotes));
+                noteArea.style.display = 'none';
+                
+                showStatus('📝 笔记已保存', 'success');
+                renderChapters(); // 更新章节显示
+                loadChapter(currentChapter); // 刷新当前章节显示
+            }
+        }
+
+        function shareInsight() {
+            const chapter = bookChapters[currentChapter];
+            const progress = readingProgress[currentChapter];
+            
+            let shareText = `📖 正在阅读《宽恕就是爱》- "${chapter.title}"\n\n`;
+            
+            if (progress && progress.insight) {
+                const content = progress.insight.content;
+                const preview = content.length > 200 ? content.substring(0, 200) + '...' : content;
+                shareText += `💡 AI深度分析节选：\n${preview}\n\n`;
+            }
+            
+            shareText += `#宽恕就是爱 #AI阅读助手 #心灵成长 #每日感悟`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: '宽恕就是爱 - AI阅读感悟',
+                    text: shareText
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showStatus('📋 感悟已复制到剪贴板！', 'success');
+                }).catch(() => {
+                    showStatus('复制失败，请手动复制', 'error');
+                });
+            }
+        }
+
+        function markAllRead() {
+            if (confirm('确定要将所有章节标记为已读吗？这将为所有章节生成阅读记录。')) {
+                bookChapters.forEach((_, index) => {
+                    if (!readingProgress[index]) {
+                        readingProgress[index] = {
+                            date: new Date().toISOString(),
+                            insight: { content: '已标记为已读', timestamp: new Date().toISOString() }
+                        };
+                    }
+                });
+                
+                localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+                updateStats();
+                renderChapters();
+                showStatus('✓ 所有章节已标记为已读！', 'success');
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('确定要重置所有阅读进度吗？此操作不可撤销。')) {
+                readingProgress = {};
+                personalNotes = {};
+                localStorage.removeItem('readingProgress');
+                localStorage.removeItem('personalNotes');
+                
+                updateStats();
+                renderChapters();
+                document.getElementById('aiResult').classList.add('hidden');
+                
+                showStatus('🔄 阅读进度已重置', 'success');
+            }
+        }
+
+        function autoReadMode() {
+            const autoBtn = document.getElementById('autoBtn');
+            
+            if (autoReadTimer) {
+                clearInterval(autoReadTimer);
+                autoReadTimer = null;
+                autoBtn.textContent = '自动阅读模式';
+                autoBtn.style.background = '';
+                showStatus('⏸ 自动阅读模式已关闭', 'success');
+                return;
+            }
+
+            if (confirm('开启自动阅读模式？系统将每30秒自动切换到下一章。')) {
+                autoBtn.textContent = '停止自动阅读';
+                autoBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%)';
+                
+                autoReadTimer = setInterval(() => {
+                    const nextIndex = (currentChapter + 1) % bookChapters.length;
+                    loadChapter(nextIndex);
+                }, 30000);
+                
+                showStatus('▶ 自动阅读模式已开启 - 每30秒切换章节', 'success');
+            }
+        }
+
+        function exportProgress() {
+            const exportData = {
+                bookTitle: '宽恕就是爱',
+                exportDate: new Date().toISOString(),
+                totalChapters: bookChapters.length,
+                completedChapters: Object.keys(readingProgress).length,
+                progressPercentage: Math.round((Object.keys(readingProgress).length / bookChapters.length) * 100),
+                readingProgress: readingProgress,
+                personalNotes: personalNotes,
+                chapters: bookChapters.map(ch => ch.title)
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `宽恕就是爱-阅读进度-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showStatus('📤 阅读进度已导出！', 'success');
+        }
+
+        function exportInsights() {
+            let markdownContent = `# 《宽恕就是爱》- AI阅读感悟合集\n\n`;
+            markdownContent += `**生成时间：** ${new Date().toLocaleString()}\n`;
+            markdownContent += `**阅读进度：** ${Object.keys(readingProgress).length}/${bookChapters.length} 章\n\n`;
+            markdownContent += `---\n\n`;
+
+            bookChapters.forEach((chapter, index) => {
+                markdownContent += `## 第${index + 1}章：${chapter.title}\n\n`;
+                
+                if (readingProgress[index]) {
+                    const progress = readingProgress[index];
+                    markdownContent += `**完成时间：** ${new Date(progress.date).toLocaleString()}\n\n`;
+                    
+                    if (progress.insight && progress.insight.content) {
+                        markdownContent += `### 🤖 AI深度分析\n\n`;
+                        markdownContent += `${progress.insight.content}\n\n`;
+                    }
+                }
+                
+                if (personalNotes[index]) {
+                    markdownContent += `### 📝 个人笔记\n\n`;
+                    markdownContent += `${personalNotes[index]}\n\n`;
+                }
+                
+                if (!readingProgress[index]) {
+                    markdownContent += `*📖 待阅读*\n\n`;
+                }
+                
+                markdownContent += `---\n\n`;
+            });
+
+            markdownContent += `\n*本文档由《宽恕就是爱》AI智能阅读助手生成*\n`;
+
+            const blob = new Blob([markdownContent], {type: 'text/markdown; charset=utf-8'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `宽恕就是爱-AI感悟合集-${new Date().toISOString().split('T')[0]}.md`;
+            link.click();
+            
+            showStatus('📝 所有感悟已导出为Markdown文件！', 'success');
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(event) {
+            if (bookChapters.length === 0) return;
+
+            switch(event.key) {
+                case 'ArrowLeft':
+                    if (currentChapter > 0 && !event.ctrlKey) {
+                        loadChapter(currentChapter - 1);
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (currentChapter < bookChapters.length - 1 && !event.ctrlKey) {
+                        loadChapter(currentChapter + 1);
+                    }
+                    break;
+                case 'g':
+                    if (event.ctrlKey) {
+                        event.preventDefault();
+                        generateInsight();
+                    }
+                    break;
+                case 's':
+                    if (event.ctrlKey) {
+                        event.preventDefault();
+                        toggleNote();
+                    }
+                    break;
+            }
+        });
+
+        // 页面卸载时清理
+        window.addEventListener('beforeunload', function() {
+            if (autoReadTimer) {
+                clearInterval(autoReadTimer);
+            }
+        });
+
+        console.log('🚀 宽恕就是爱 - AI智能阅读助手已加载完成！');
+    </script>
+</body>
+</html>
